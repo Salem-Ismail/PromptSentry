@@ -20,7 +20,8 @@ PUBLIC_PATHS = {"/health", "/docs", "/openapi.json", "/redoc"}
 
 class GatekeepingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
-        if request.url.path in PUBLIC_PATHS:
+        # cors preflight never sends our bearer key
+        if request.method == "OPTIONS" or request.url.path in PUBLIC_PATHS:
             return await call_next(request)
 
         # who is this
@@ -38,6 +39,10 @@ class GatekeepingMiddleware(BaseHTTPMiddleware):
 
         # hashed so we dont dump raw keys into postgres
         request.state.user_id = user_id_from_api_key(token)
+
+        # dashboard polls /admin/logs often — dont burn the chat rate budget
+        if request.method == "GET" and request.url.path.startswith("/admin/"):
+            return await call_next(request)
 
         # too many requests?
         allowed, count = check_rate_limit(token)
