@@ -3,7 +3,7 @@ Dry-run eval: JailbreakBench PAIR jailbreak *prompts* vs benign Behaviors.
 
 Metric (PromptSentry firewall):
   hit  = HTTP 400 request_blocked
-  miss = anything else (usually 200) — even if OpenAI would refuse
+  miss = anything else (usually 200) - even if OpenAI would refuse
 
 Usage (from promptsentry/):
   python3 -m venv .venv-eval && source .venv-eval/bin/activate
@@ -12,9 +12,9 @@ Usage (from promptsentry/):
   python eval/dry_run_jbb.py --limit 20
 
 Tips:
-  - API must be up: docker compose up -d
-  - RATE_LIMIT_PER_MINUTE defaults to 20; this script paces requests (~3.5s)
-  - Expect ~1s+ per L1-clear prompt (Layer 2 judge call)
+ - API must be up: docker compose up -d
+ - RATE_LIMIT_PER_MINUTE defaults to 20; this script paces requests (~3.5s)
+ - Expect ~1s+ per L1-clear prompt (Layer 2 judge call)
 """
 
 from __future__ import annotations

@@ -40,7 +40,7 @@ class GatekeepingMiddleware(BaseHTTPMiddleware):
         # hashed so we dont dump raw keys into postgres
         request.state.user_id = user_id_from_api_key(token)
 
-        # dashboard polls /admin/logs often — dont burn the chat rate budget
+        # dashboard polls /admin/logs often - dont burn the chat rate budget
         if request.method == "GET" and request.url.path.startswith("/admin/"):
             return await call_next(request)
 

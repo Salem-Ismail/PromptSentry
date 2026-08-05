@@ -15,7 +15,7 @@ export function SettingsPage({ apiKey, onApiKeyChange, healthy, total }: Props) 
           API access
         </h3>
         <p className="mt-1 text-[12px] text-[var(--muted)]">
-          PromptSentry bearer key (stored in this browser’s localStorage only)
+          PromptSentry bearer key (stored in this browser's localStorage only)
         </p>
         <label className="mt-4 flex flex-col gap-2">
           <span className="text-[12px] tracking-[0.14em] text-[var(--muted)] uppercase">

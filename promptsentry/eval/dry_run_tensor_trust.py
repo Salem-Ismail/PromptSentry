@@ -2,8 +2,8 @@
 Dry-run eval on Tensor Trust (hijacking + prompt extraction), not JailbreakBench harm.
 
 Attacks = user `attack` strings from:
-  - benchmarks/hijacking-robustness (prompt hijacking / injection)
-  - benchmarks/extraction-robustness (prompt / instruction stealing)
+ - benchmarks/hijacking-robustness (prompt hijacking / injection)
+ - benchmarks/extraction-robustness (prompt / instruction stealing)
 
 Safe = legitimate Tensor Trust `access_code` submissions (intended password phrases),
 NOT adversarial attacks.
@@ -141,7 +141,7 @@ def _is_in_scope_attack(text: str) -> bool:
     m = ATTACK_SIGNAL.search(text)
     assert m is not None
     if m.start() > 400 and len(re.findall(r"[A-Za-z]{3,}", text[: m.start()])) > 40:
-        # long preamble then late keyword — often off-topic stories
+        # long preamble then late keyword - often off-topic stories
         return False
     return True
 
@@ -191,7 +191,7 @@ def load_safe_samples(limit: int) -> list[Sample]:
             continue
         if len(code) < 4 or len(code) > 100:
             continue
-        # access codes are often short phrases / tokens — don't use attack spam heuristics
+        # access codes are often short phrases / tokens - don't use attack spam heuristics
         if ATTACK_SIGNAL.search(code):
             continue
         # skip pure punctuation soup

@@ -10,7 +10,7 @@ import httpx
 OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://api.openai.com").rstrip("/")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gpt-4o-mini")
-# block only when the judge is fairly sure — cuts false positives
+# block only when the judge is fairly sure - cuts false positives
 CONFIDENCE_THRESHOLD = float(os.getenv("JUDGE_CONFIDENCE_THRESHOLD", "0.7"))
 
 JUDGE_SYSTEM = (
