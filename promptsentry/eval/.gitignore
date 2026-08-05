@@ -1,0 +1,7 @@
+.venv-eval/
+__pycache__/
+
+# scratch outputs at eval/ root (keep archived runs under results/)
+/dry_run_results.jsonl
+/tensor_trust_results.jsonl
+/tensor_trust_samples.json

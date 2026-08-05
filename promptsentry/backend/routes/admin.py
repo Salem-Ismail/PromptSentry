@@ -2,7 +2,7 @@
 admin routes - read the audit log over http
 """
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Request
 from sqlalchemy import func, select
 
 from db import SessionLocal
@@ -13,21 +13,32 @@ router = APIRouter(prefix="/admin", tags=["admin"])
 
 @router.get("/logs")
 def list_logs(
+    request: Request,
     page: int = Query(1, ge=1),
     limit: int = Query(50, ge=1, le=100),
 ):
-    """paginated request_logs, newest first. needs a valid api key."""
+    """
+    paginated request_logs for THIS api key only (newest first).
+    user_id is the hashed key set by gatekeeping - never the raw secret.
+    """
+    user_id = getattr(request.state, "user_id", None)
+    # fail closed: never dump the whole table if identity is missing
+    if not user_id:
+        return {"logs": [], "total": 0, "page": page, "limit": limit, "pages": 0}
+
     offset = (page - 1) * limit
     db = SessionLocal()
     try:
-        total = db.scalar(select(func.count()).select_from(RequestLog)) or 0
-
-        rows = db.scalars(
+        filt = RequestLog.user_id == user_id
+        count_stmt = select(func.count()).select_from(RequestLog).where(filt)
+        list_stmt = (
             select(RequestLog)
+            .where(filt)
             .order_by(RequestLog.id.desc())
-            .offset(offset)
-            .limit(limit)
-        ).all()
+        )
+
+        total = db.scalar(count_stmt) or 0
+        rows = db.scalars(list_stmt.offset(offset).limit(limit)).all()
 
         logs = [
             {

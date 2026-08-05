@@ -1,13 +1,11 @@
 "use client";
 
 const NAV = [
-  { id: "dashboard", label: "Dashboard", soon: false },
-  { id: "feed", label: "Live Feed", soon: false },
-  { id: "threats", label: "Threats", soon: true },
-  { id: "pii", label: "PII Log", soon: true },
-  { id: "policies", label: "Policies", soon: true },
-  { id: "analytics", label: "Analytics", soon: true },
-  { id: "settings", label: "Settings", soon: true },
+  { id: "dashboard", label: "Dashboard" },
+  { id: "feed", label: "Live Feed" },
+  { id: "threats", label: "Threats" },
+  { id: "policies", label: "Policies" },
+  { id: "settings", label: "Settings" },
 ] as const;
 
 type Props = {
@@ -32,31 +30,24 @@ export function Sidebar({ active, onNavigate }: Props) {
             <button
               key={item.id}
               type="button"
-              disabled={item.soon}
               onClick={() => onNavigate(item.id)}
               className={[
-                "relative flex items-center justify-between rounded-md px-2.5 py-2 text-left text-[12.5px] tracking-wide transition-colors",
+                "relative flex items-center rounded-md px-2.5 py-2 text-left text-[12.5px] tracking-wide transition-colors",
                 isActive
                   ? "bg-[var(--accent-dim)] text-[var(--accent)]"
                   : "text-[var(--muted)] hover:bg-white/[0.03] hover:text-[var(--text-dim)]",
-                item.soon ? "cursor-not-allowed opacity-40" : "",
               ].join(" ")}
             >
               {isActive ? (
                 <span className="absolute top-1/2 left-0 h-4 w-[2px] -translate-y-1/2 rounded-r bg-[var(--accent)]" />
               ) : null}
               <span>{item.label}</span>
-              {item.soon ? (
-                <span className="rounded px-1 py-0.5 text-[8px] uppercase tracking-[0.12em] text-[var(--muted)]">
-                  soon
-                </span>
-              ) : null}
             </button>
           );
         })}
       </nav>
 
-      <div className="border-t border-[var(--border)] px-3 py-3 text-[10px] tracking-wide text-[var(--muted)]">
+      <div className="border-t border-[var(--border)] px-3 py-3 text-[12px] tracking-wide text-[var(--muted)]">
         <span className="font-mono text-[var(--text-dim)]/70">/admin/logs</span>
       </div>
     </aside>

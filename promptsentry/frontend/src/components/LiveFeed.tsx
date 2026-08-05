@@ -34,7 +34,7 @@ function typeLabel(log: RequestLog): string {
 }
 
 function formatTime(ts: string | null, compact: boolean): string {
-  if (!ts) return "—";
+  if (!ts) return "-";
   try {
     const d = new Date(ts);
     return compact ? d.toLocaleTimeString() : d.toLocaleString();
@@ -76,17 +76,17 @@ export function LiveFeed({
             {title}
           </h2>
           {!compact ? (
-            <p className="mt-0.5 text-[11px] tracking-wide text-[var(--muted)]">{subtitle}</p>
+            <p className="mt-0.5 text-[12px] tracking-wide text-[var(--muted)]">{subtitle}</p>
           ) : null}
         </div>
-        <span className="rounded-full border border-[var(--border)] bg-white/[0.02] px-2 py-0.5 font-mono text-[10px] tracking-wide text-[var(--muted)]">
+        <span className="rounded-full border border-[var(--border)] bg-white/[0.02] px-2 py-0.5 font-mono text-[12px] tracking-wide text-[var(--muted)]">
           {rows.length}
         </span>
       </div>
 
       <div className="min-h-0 flex-1 overflow-auto">
         <table className="min-w-full text-left text-sm">
-          <thead className="sticky top-0 border-b border-[var(--border)] bg-[var(--panel-solid)] text-[10px] tracking-[0.14em] text-[var(--muted)] uppercase">
+          <thead className="sticky top-0 border-b border-[var(--border)] bg-[var(--panel-solid)] text-[12px] tracking-[0.14em] text-[var(--muted)] uppercase">
             <tr>
               <th className={`px-4 ${compact ? "py-1.5" : "py-2.5"} font-medium`}>Time</th>
               <th className={`px-3 ${compact ? "py-1.5" : "py-2.5"} font-medium`}>Source</th>
@@ -118,46 +118,46 @@ export function LiveFeed({
                       ].join(" ")}
                     >
                       <td
-                        className={`whitespace-nowrap px-4 ${cellY} font-mono text-[11px] text-[var(--text-dim)]`}
+                        className={`whitespace-nowrap px-4 ${cellY} font-mono text-[12px] text-[var(--text-dim)]`}
                       >
                         {formatTime(log.timestamp, compact)}
                       </td>
-                      <td className={`px-3 ${cellY} font-mono text-[11px] text-[var(--text-dim)]`}>
-                        {log.ip_address || "—"}
+                      <td className={`px-3 ${cellY} font-mono text-[12px] text-[var(--text-dim)]`}>
+                        {log.ip_address || "-"}
                       </td>
                       <td className={`px-3 ${cellY}`}>
-                        <span className="rounded-md border border-[var(--border)] bg-white/[0.02] px-1.5 py-0.5 font-mono text-[10px] text-[var(--text-dim)]">
+                        <span className="rounded-md border border-[var(--border)] bg-white/[0.02] px-1.5 py-0.5 font-mono text-[12px] text-[var(--text-dim)]">
                           {typeLabel(log)}
                         </span>
                       </td>
-                      <td className={`px-3 ${cellY} font-mono text-[11px] text-[var(--muted)]`}>
-                        {log.layer ?? "—"}
+                      <td className={`px-3 ${cellY} font-mono text-[12px] text-[var(--muted)]`}>
+                        {log.layer ?? "-"}
                       </td>
                       <td className={`px-3 ${cellY}`}>
                         <span
-                          className={`rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide ${action.className}`}
+                          className={`rounded-full px-2 py-0.5 text-[12px] font-medium tracking-wide ${action.className}`}
                         >
                           {action.label}
                         </span>
                       </td>
                       <td
-                        className={`px-3 ${cellY} font-mono text-[11px] tabular-nums text-[var(--muted)]`}
+                        className={`px-3 ${cellY} font-mono text-[12px] tabular-nums text-[var(--muted)]`}
                       >
-                        {log.latency_ms != null ? `${log.latency_ms}ms` : "—"}
+                        {log.latency_ms != null ? `${log.latency_ms}ms` : "-"}
                       </td>
                       <td
-                        className={`max-w-[22rem] truncate px-3 ${cellY} font-mono text-[11px] text-[var(--text-dim)]`}
+                        className={`max-w-[22rem] truncate px-3 ${cellY} font-mono text-[12px] text-[var(--text-dim)]`}
                       >
-                        {log.prompt || "—"}
+                        {log.prompt || "-"}
                       </td>
                     </tr>
                     {open ? (
                       <tr className="border-t border-[var(--border)] bg-black/25">
                         <td colSpan={7} className="px-4 py-3">
-                          <div className="text-[10px] tracking-[0.14em] text-[var(--muted)] uppercase">
+                          <div className="text-[12px] tracking-[0.14em] text-[var(--muted)] uppercase">
                             Stored prompt
                           </div>
-                          <pre className="mt-2 max-h-32 overflow-auto whitespace-pre-wrap rounded-lg border border-[var(--border)] bg-[var(--bg)] p-3 font-mono text-[11px] leading-relaxed text-[var(--text)]">
+                          <pre className="mt-2 max-h-32 overflow-auto whitespace-pre-wrap rounded-lg border border-[var(--border)] bg-[var(--bg)] p-3 font-mono text-[12px] leading-relaxed text-[var(--text)]">
                             {log.prompt || "(empty)"}
                           </pre>
                         </td>

@@ -5,12 +5,23 @@ import { fetchHealth, fetchLogs } from "@/lib/api";
 import type { RequestLog } from "@/lib/types";
 import { LiveFeed } from "./LiveFeed";
 import { OverviewCharts } from "./OverviewCharts";
+import { PoliciesPage } from "./PoliciesPage";
+import { SettingsPage } from "./SettingsPage";
 import { Sidebar } from "./Sidebar";
 import { StatCards } from "./StatCards";
+import { ThreatsPage } from "./ThreatsPage";
 import { TopBar } from "./TopBar";
 
 const STORAGE_KEY = "promptsentry_api_key";
 const POLL_MS = 5000;
+
+const TITLES: Record<string, { eyebrow: string; title: string }> = {
+  dashboard: { eyebrow: "Overview", title: "Gateway dashboard" },
+  feed: { eyebrow: "Operations", title: "Live Feed" },
+  threats: { eyebrow: "Detection", title: "Threats" },
+  policies: { eyebrow: "Configuration", title: "Policies" },
+  settings: { eyebrow: "Console", title: "Settings" },
+};
 
 export function Dashboard() {
   const [active, setActive] = useState("dashboard");
@@ -28,7 +39,8 @@ export function Dashboard() {
 
   const persistKey = (value: string) => {
     setApiKey(value);
-    window.localStorage.setItem(STORAGE_KEY, value);
+    if (value) window.localStorage.setItem(STORAGE_KEY, value);
+    else window.localStorage.removeItem(STORAGE_KEY);
   };
 
   const refresh = useCallback(async () => {
@@ -36,7 +48,7 @@ export function Dashboard() {
     setHealthy(ok);
 
     if (!apiKey.trim()) {
-      setError("Paste your PromptSentry API key in the top bar.");
+      setError("Paste your PromptSentry API key in the top bar or Settings.");
       return;
     }
 
@@ -68,7 +80,7 @@ export function Dashboard() {
       {
         label: "Total logged",
         value: total,
-        hint: "All rows in Postgres",
+        hint: "For your API key",
         tone: "info" as const,
       },
       {
@@ -92,6 +104,8 @@ export function Dashboard() {
     ];
   }, [logs, total]);
 
+  const heading = TITLES[active] ?? TITLES.dashboard;
+
   return (
     <div className="flex h-screen overflow-hidden text-[var(--text)]">
       <Sidebar active={active} onNavigate={setActive} />
@@ -111,27 +125,27 @@ export function Dashboard() {
               : "flex-1 space-y-4 overflow-auto px-6 py-5"
           }
         >
-          {active === "dashboard" ? (
-            <div className="fade-up flex shrink-0 items-baseline justify-between gap-3">
-              <h1 className="font-[family-name:var(--font-display)] text-lg tracking-[-0.03em] text-[var(--text)]">
-                Gateway dashboard
-              </h1>
-              <p className="hidden text-[10px] tracking-wide text-[var(--muted)] sm:block">
-                Poll-derived · Live Feed for full table
-              </p>
-            </div>
-          ) : (
-            <div className="fade-up flex items-end justify-between gap-4">
-              <div>
-                <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--muted)] uppercase">
-                  Operations
+          <div className="fade-up flex shrink-0 items-baseline justify-between gap-3">
+            <div>
+              {active !== "dashboard" ? (
+                <p className="text-[12px] font-medium tracking-[0.2em] text-[var(--muted)] uppercase">
+                  {heading.eyebrow}
                 </p>
-                <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl tracking-[-0.03em] text-[var(--text)]">
-                  Live Feed
-                </h1>
-              </div>
+              ) : null}
+              <h1
+                className={`font-[family-name:var(--font-display)] tracking-[-0.03em] text-[var(--text)] ${
+                  active === "dashboard" ? "text-lg" : "mt-1 text-2xl"
+                }`}
+              >
+                {heading.title}
+              </h1>
             </div>
-          )}
+            {active === "dashboard" ? (
+              <p className="hidden text-[12px] tracking-wide text-[var(--muted)] sm:block">
+                Poll-derived. Live Feed for full table.
+              </p>
+            ) : null}
+          </div>
 
           {error ? (
             <div className="shrink-0 rounded-xl border border-[var(--crit)]/30 bg-[var(--crit-dim)] px-4 py-2.5 text-sm text-[var(--crit)]">
@@ -155,12 +169,20 @@ export function Dashboard() {
           )}
 
           {active === "feed" && (
-            <>
-              <LiveFeed logs={logs} flaggedOnly={false} />
-              <p className="text-[11px] tracking-wide text-[var(--muted)]">
-                <span className="font-mono text-[var(--text-dim)]">GET /admin/logs</span> · every 5s
-              </p>
-            </>
+            <LiveFeed logs={logs} flaggedOnly={false} />
+          )}
+
+          {active === "threats" && <ThreatsPage logs={logs} />}
+
+          {active === "policies" && <PoliciesPage />}
+
+          {active === "settings" && (
+            <SettingsPage
+              apiKey={apiKey}
+              onApiKeyChange={persistKey}
+              healthy={healthy}
+              total={total}
+            />
           )}
         </main>
       </div>

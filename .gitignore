@@ -1,12 +1,16 @@
 # Environment
 .env
 .env.local
+.env.*
+!.env.example
 
 # Python
 __pycache__/
 *.py[cod]
 .venv/
+.venv*/
 venv/
+promptsentry/.venv-eval/
 
 # Node (Module 8)
 node_modules/
@@ -15,6 +19,10 @@ node_modules/
 # Docker
 postgres_data/
 
-# IDE
+# IDE / local tooling
 .idea/
 .vscode/
+.cursor/
+
+# Local screenshots / noise
+ss*.png

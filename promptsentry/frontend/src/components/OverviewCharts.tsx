@@ -66,7 +66,7 @@ function Donut({ slices }: { slices: Slice[] }) {
           {slices.reduce((s, x) => s + x.count, 0)}
         </text>
       </svg>
-      <ul className="space-y-1 text-[11px]">
+      <ul className="space-y-1 text-[12px]">
         {slices.map((s) => (
           <li key={s.label} className="flex items-center gap-2 text-[var(--text-dim)]">
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.color }} />
@@ -84,11 +84,11 @@ function Bars({ items }: { items: Slice[] }) {
   return (
     <div className="space-y-2">
       {items.length === 0 ? (
-        <p className="text-[11px] text-[var(--muted)]">No threat types in this window.</p>
+        <p className="text-[12px] text-[var(--muted)]">No threat types in this window.</p>
       ) : (
         items.map((item) => (
           <div key={item.label}>
-            <div className="mb-0.5 flex justify-between text-[11px]">
+            <div className="mb-0.5 flex justify-between text-[12px]">
               <span className="font-mono text-[var(--text-dim)]">{item.label}</span>
               <span className="font-mono text-[var(--text)]">{item.count}</span>
             </div>
@@ -147,7 +147,7 @@ export function OverviewCharts({ logs }: Props) {
         <h3 className="font-[family-name:var(--font-display)] text-[13px] tracking-tight text-[var(--text)]">
           Outcomes
         </h3>
-        <p className="mb-2.5 text-[10px] tracking-wide text-[var(--muted)]">
+        <p className="mb-2.5 text-[12px] tracking-wide text-[var(--muted)]">
           Last {logs.length} polled events
         </p>
         <Donut slices={outcome} />
@@ -157,7 +157,7 @@ export function OverviewCharts({ logs }: Props) {
         <h3 className="font-[family-name:var(--font-display)] text-[13px] tracking-tight text-[var(--text)]">
           Threat types
         </h3>
-        <p className="mb-2.5 text-[10px] tracking-wide text-[var(--muted)]">
+        <p className="mb-2.5 text-[12px] tracking-wide text-[var(--muted)]">
           Blocked only · current page
         </p>
         <Bars items={threats} />
@@ -167,7 +167,7 @@ export function OverviewCharts({ logs }: Props) {
         <h3 className="font-[family-name:var(--font-display)] text-[13px] tracking-tight text-[var(--text)]">
           Catch layer
         </h3>
-        <p className="mb-2.5 text-[10px] tracking-wide text-[var(--muted)]">Where blocks fired</p>
+        <p className="mb-2.5 text-[12px] tracking-wide text-[var(--muted)]">Where blocks fired</p>
         <Bars items={layers} />
       </section>
     </div>

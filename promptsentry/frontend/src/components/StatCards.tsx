@@ -41,7 +41,7 @@ export function StatCards({ cards, compact = false }: Props) {
           <div
             className={`pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r ${toneAccent[card.tone]} via-transparent to-transparent`}
           />
-          <div className="text-[9px] font-medium tracking-[0.16em] text-[var(--muted)] uppercase">
+          <div className="text-[12px] font-medium tracking-[0.16em] text-[var(--muted)] uppercase">
             {card.label}
           </div>
           <div
@@ -52,9 +52,9 @@ export function StatCards({ cards, compact = false }: Props) {
             {card.value}
           </div>
           {!compact ? (
-            <div className="mt-2 text-[11px] leading-snug text-[var(--muted)]">{card.hint}</div>
+            <div className="mt-2 text-[12px] leading-snug text-[var(--muted)]">{card.hint}</div>
           ) : (
-            <div className="mt-1 truncate text-[10px] text-[var(--muted)]">{card.hint}</div>
+            <div className="mt-1 truncate text-[12px] text-[var(--muted)]">{card.hint}</div>
           )}
         </div>
       ))}
