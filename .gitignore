@@ -23,6 +23,3 @@ postgres_data/
 .idea/
 .vscode/
 .cursor/
-
-# Local screenshots / noise
-ss*.png
