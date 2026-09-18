@@ -4,7 +4,11 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      # Bind-mount source for --reload. On Fedora/Podman, :Z often fails to
+      # relabel __pycache__; label=disable is the local-dev workaround.
       - ./backend:/app
+    security_opt:
+      - label=disable
     depends_on:
       - postgres
       - redis

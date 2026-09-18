@@ -7,24 +7,37 @@ paraphrases without these shapes go to layer 2.
 
 import re
 
+# Object of an override verb: instructions, rules, prompt, input, text, or
+# positional "above"/"below" (e.g. "ignore any input above").
+_OVERRIDE_OBJECT = (
+    r"(?:(?:all|any|the|your|my)\s+)?"
+    r"(?:(?:previous|prior|above|below|new)\s+)?"
+    r"(?:instructions?|rules?|prompts?|input|text|"
+    r"(?:all\s+)?(?:text|input)\s+(?:above|below)|"
+    r"(?:above|below))"
+)
+
 # (compiled pattern, threat_type, human-readable id for logs)
 LAYER1_RULES: list[tuple[re.Pattern[str], str, str]] = [
+    # --- instruction override (ignore / disregard / forget) ---
     (
         re.compile(
-            r"ignore\s+(all\s+)?(previous|prior|above)\s+instructions",
+            rf"(?:ignore|disregard|forget)\s+{_OVERRIDE_OBJECT}",
             re.IGNORECASE,
         ),
         "prompt_injection",
-        "ignore_previous_instructions",
+        "override_instructions",
     ),
     (
         re.compile(
-            r"disregard\s+(all\s+)?(previous|prior|above)\s+instructions",
+            r"(?:ignore|disregard)\s+(?:all\s+|any\s+)?(?:input|text|instructions?|rules?)\s+"
+            r"(?:except|above|below|and\s+below)",
             re.IGNORECASE,
         ),
         "prompt_injection",
-        "disregard_previous_instructions",
+        "ignore_except_or_above_below",
     ),
+    # --- jailbreak mode (topic word alone still does NOT match) ---
     (
         re.compile(
             r"(enable|activate|enter)\s+jailbreak(\s+mode)?",
@@ -43,21 +56,18 @@ LAYER1_RULES: list[tuple[re.Pattern[str], str, str]] = [
         "jailbreak",
         "dan_mode",
     ),
+    # --- system / instruction extraction ---
     (
         re.compile(
-            r"reveal\s+(your\s+)?(hidden\s+|system\s+)?(prompt|instructions)",
+            r"(?:repeat|print|show|reveal|tell|paste)\s+"
+            r"(?:me\s+|all\s+)?"
+            r"(?:(?:your|the|my)\s+)?"
+            r"(?:(?:full|exact|entire|initial|additional|hidden|system|developer)\s+)*"
+            r"(?:instructions?|prompts?|rules?|message)",
             re.IGNORECASE,
         ),
         "system_prompt_extraction",
-        "reveal_system_prompt",
-    ),
-    (
-        re.compile(
-            r"(print|show|paste)\s+(me\s+)?(the\s+)?(exact\s+)?(system|developer|hidden)\s+(prompt|message|instructions)",
-            re.IGNORECASE,
-        ),
-        "system_prompt_extraction",
-        "show_system_prompt",
+        "extract_instructions_or_prompt",
     ),
 ]
 

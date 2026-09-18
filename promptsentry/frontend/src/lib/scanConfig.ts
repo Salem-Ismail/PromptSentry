@@ -17,9 +17,14 @@ export const PII_OUT_OF_SCOPE = [
 
 export const LAYER1_RULES = [
   {
-    id: "ignore_previous_instructions",
+    id: "override_instructions",
     threat: "prompt_injection",
-    summary: "Ignore / disregard previous|prior|above instructions",
+    summary: "Ignore / disregard / forget + instructions|rules|prompt|input|text|above|below",
+  },
+  {
+    id: "ignore_except_or_above_below",
+    threat: "prompt_injection",
+    summary: "Ignore/disregard input|text except|above|below",
   },
   {
     id: "enable_jailbreak",
@@ -37,14 +42,9 @@ export const LAYER1_RULES = [
     summary: "DAN mode (flexible separators)",
   },
   {
-    id: "reveal_system_prompt",
+    id: "extract_instructions_or_prompt",
     threat: "system_prompt_extraction",
-    summary: "Reveal hidden / system prompt or instructions",
-  },
-  {
-    id: "show_system_prompt",
-    threat: "system_prompt_extraction",
-    summary: "Print / show / paste system|developer|hidden prompt",
+    summary: "Repeat / print / show / reveal / tell your|the instructions|prompt|rules",
   },
 ] as const;
 
