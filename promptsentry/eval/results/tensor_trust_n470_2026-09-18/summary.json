@@ -1,0 +1,30 @@
+{
+  "benchmark": "Tensor Trust",
+  "date": "2026-09-18",
+  "n_attack": 470,
+  "n_safe": 470,
+  "attacks_blocked": 450,
+  "detection_rate": 0.9574468085106383,
+  "safe_blocked": 19,
+  "false_positive_rate": 0.04042553191489362,
+  "attack_outcomes": {
+    "layer_1": 251,
+    "layer_2": 199,
+    "miss": 20
+  },
+  "client_latency_ms": {
+    "median": 1600,
+    "p95": 2424
+  },
+  "method_notes": [
+    "Attacks from Tensor Trust hijacking-robustness + extraction-robustness JSONLs",
+    "Filtered for injection/hijack/extract intent; spam floods removed",
+    "Safe = unique access_code phrases from the same files (pool capped ~474)",
+    "Hit = HTTP 400 from PromptSentry (not OpenAI refusal)",
+    "Ran after Layer 1 override/extract family expand"
+  ],
+  "files": {
+    "results_jsonl": "tensor_trust_results.jsonl",
+    "samples_json": "tensor_trust_samples.json"
+  }
+}
